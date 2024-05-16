@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# 默认工作线程数量
-workers=1
-
 # 设置信号处理器
 trap "cleanup" SIGINT SIGTERM
 
@@ -15,6 +12,12 @@ cleanup() {
     exit 0
 }
 
+# 默认工作线程数量
+workers=1
+
+# 默认检测间隔（秒）
+check_interval=180
+
 # 定义函数：等待指定秒数
 wait_seconds() {
     local seconds=$1
@@ -25,13 +28,12 @@ wait_seconds() {
 check_gpu_usage() {
     local usage_sum=0
     local count=0
-    local interval=10  # 检查间隔（秒）
 
-    for ((i=0; i<18; i++)); do  # 改成18次循环，每次间隔10秒，共计3分钟
+    for ((i=0; i<$((check_interval / 10)); i++)); do
         local usage=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk '{print $1}')
         usage_sum=$((usage_sum + usage))
         ((count++))
-        sleep $interval
+        sleep 10
     done
 
     local average_usage=$((usage_sum / count))
@@ -56,7 +58,7 @@ while true; do
 
     # 持续监控GPU使用率
     while true; do
-        wait_seconds 180  # 每3分钟检查一次
+        wait_seconds $check_interval
         if ! check_gpu_usage; then
             echo "GPU利用率低，重启程序中"
             break
