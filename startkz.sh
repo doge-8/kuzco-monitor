@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# 默认工作线程数量
+workers=1
+
 # 设置信号处理器
 trap "cleanup" SIGINT SIGTERM
 
@@ -45,7 +48,7 @@ check_gpu_usage() {
 while true; do
     # 启动程序并将输出重定向到不同的日志文件
     echo "启动kuzco中"
-    for ((i=1; i<=1; i++)); do
+    for ((i=1; i<=$workers; i++)); do
         kuzco worker start >> /root/log_kuzco${i}.txt 2>&1 &
         sleep 2
     done
