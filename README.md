@@ -28,7 +28,7 @@ dos2unix startkz.sh
 
 wget https://github.com/doge-8/kuzco-monitor/releases/download/1.0/startkz.sh && sudo apt-get install dos2unix -y && dos2unix startkz.sh && chmod 777 startkz.sh
 
-2.修改需要的躲开数
+2.修改需要的多开数
 
 3.启动
 
