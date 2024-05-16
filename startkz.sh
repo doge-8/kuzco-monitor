@@ -3,17 +3,23 @@
 # 设置信号处理器
 trap "cleanup" SIGINT SIGTERM
 
-# 清理函数，用于终止程序并删除日志
+# Discord Webhook URL
+discord_webhook_url="your webhook link"
+
+send_discord_message() {
+    local message="当前主机：$(hostname) - GPU利用率低，正在重启程序..."
+    curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"$message\"}" "$discord_webhook_url"
+}
+
+# 清理函数，用于终止程序
 cleanup() {
     echo "关闭所有kuzco"
     pkill -9 "kuzco"
-    echo "删除旧的日志文件"
-    rm -f /root/log_kuzco*.txt
     exit 0
 }
 
 # 默认工作线程数量
-workers=1
+workers=4
 
 # 默认检测间隔（秒）
 check_interval=180
@@ -46,14 +52,15 @@ check_gpu_usage() {
     fi
 }
 
+
 # 循环执行程序
 while true; do
-    # 启动程序并将输出重定向到不同的日志文件
+    # 启动程序
     echo "启动kuzco中"
     for ((i=1; i<=$workers; i++)); do
-        kuzco worker start >> /root/log_kuzco${i}.txt 2>&1 &
-        sleep 2
-    done
+    kuzco worker start > /dev/null 2>&1 &
+    sleep 2
+done
     echo "启动完毕，开始监控GPU使用率"
 
     # 持续监控GPU使用率
@@ -61,6 +68,7 @@ while true; do
         wait_seconds $check_interval
         if ! check_gpu_usage; then
             echo "GPU利用率低，重启程序中"
+	    send_discord_message "GPU利用率低，Kuzco 正在重启"
             break
         fi
     done
@@ -68,9 +76,6 @@ while true; do
     echo "重启程序中"
     # 终止程序
     pkill -9 "kuzco"
-    # 删除旧的日志文件
-    echo "删除旧的日志文件"
-    rm -f /root/log_kuzco*.txt
     # 等待5秒
     sleep 5
 done
