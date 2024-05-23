@@ -10,7 +10,7 @@ check_interval = 600  # 检测时间间隔，单位：秒
 restart_wait_time = 30  # 重启等待时间，单位：秒
 
 # Discord参数
-discord_webhook_url = "https://discord.com/api/webhooks/1240579391172640842/qZyCYB_A534AS3A7KdNGrAh-Z6hAFeTdqa2oqqBoKzreyHQ2mM5E27vBQqHS10LUfF-g"  # Discord Webhook URL
+discord_webhook_url = "https://discord.com/api/webhooks/"  # Discord Webhook URL
 discord_message = "kuzco运行异常，正在重启程序..."  # 发送的消息内容
 send_discord_notifications = input("输入1以禁用Discord消息推送，输入其他任意值以启用: ") != '1'  # 控制消息推送的开关
 
