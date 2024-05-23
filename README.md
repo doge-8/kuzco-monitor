@@ -2,7 +2,7 @@
 
 还有dc推送功能，如果不需要使用启动时输入1禁用。想使用的话谷歌创建webhook机器人的方法，很简单。
 
-wsl默认有安装python3，如果无法运行自行谷歌安装python3
+wsl默认有安装python3，如果无法运行自行谷歌安装python3。安装python后全平台通用！
 
 使用python3 kz.sh运行
 
