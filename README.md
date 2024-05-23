@@ -1,6 +1,6 @@
 # Kuzco 监控脚本
 
-## 需要你的点赞关注！ X 账户：@188888.X https://x.com/188888_x
+## 需要你的点赞关注！ X 账户：https://x.com/188888_x
 
 ## 简介
 
@@ -40,7 +40,7 @@ python3 kz.sh
 
 # Kuzco Monitoring Script
 
-## We appreciate your likes and follows! X Account: @188888.X https://x.com/188888_x
+## We appreciate your likes and follows! X Account: https://x.com/188888_x
 
 ## Introduction
 
