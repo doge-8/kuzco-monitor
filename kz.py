@@ -4,15 +4,15 @@ import time
 import sys
 import subprocess
 
-# 设置参数
+# 可调用户设置参数
 workers = 2  # 工作的数量
 check_interval = 600  # 检测时间间隔，单位：秒
 restart_wait_time = 30  # 重启等待时间，单位：秒
-
-# Discord参数
 discord_webhook_url = "https://discord.com/api/webhooks/"  # Discord Webhook URL
 discord_message = "kuzco运行异常，正在重启程序..."  # 发送的消息内容
-send_discord_notifications = input("输入1以禁用Discord消息推送，输入其他任意值以启用: ") != '1'  # 控制消息推送的开关
+
+#此参数不推荐修改！
+send_discord_notifications = input("输入1以禁用Discord消息推送，输入其他任意值以启用: ") != '1'
 
 log_directory = '/var/log/kuzco/'
 
