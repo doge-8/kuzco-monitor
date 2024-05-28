@@ -31,7 +31,7 @@
 在终端中运行以下命令启动脚本：
 
 ```
-python3 kz.sh
+python3 kz.py
 ```
 
 
@@ -71,5 +71,5 @@ This script aims to start and monitor Kuzco in multiple instances at specific ti
 Run the following command in the terminal to start the script:
 
 ```
-python3 kz.sh
+python3 kz.py
 ```
