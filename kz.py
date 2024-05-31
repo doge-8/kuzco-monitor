@@ -5,7 +5,7 @@ import sys
 import subprocess
 
 # 可调用户设置参数
-workers = 2  # 工作的数量
+workers = 4  # 工作的数量
 check_interval = 600  # 检测时间间隔，单位：秒
 restart_wait_time = 30  # 重启等待时间，单位：秒
 discord_webhook_url = "https://discord.com/api/webhooks/"  # Discord Webhook URL
