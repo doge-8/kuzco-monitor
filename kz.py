@@ -6,7 +6,7 @@ import subprocess
 
 # 可调用户设置参数
 workers = 4  # 工作的数量
-check_interval = 600  # 检测时间间隔，单位：秒
+check_interval = 300  # 检测时间间隔，单位：秒
 restart_wait_time = 30  # 重启等待时间，单位：秒
 discord_webhook_url = "https://discord.com/api/webhooks/"  # Discord Webhook URL
 discord_message = "kuzco运行异常，正在重启程序..."  # 发送的消息内容
@@ -21,6 +21,14 @@ def count_finish(file_path):
         content = file.read()
         finish_count = content.count('finish')
     return finish_count
+
+def total_finish_count():
+    total_count = 0
+    for i in range(1, workers + 1):
+        log_file_path = f'{log_directory}/log{i}.txt'
+        if os.path.exists(log_file_path):
+            total_count += count_finish(log_file_path)
+    return total_count
 
 def clear_all_logs():
     for i in range(1, workers + 1):
@@ -73,12 +81,12 @@ def main():
     start_kuzco(workers)
 
     while True:
-        initial_finish_count = count_finish(f'{log_directory}/log1.txt')
+        initial_finish_count = total_finish_count()
         print("初始的'finish'数量:", initial_finish_count)
 
         time.sleep(check_interval)
 
-        final_finish_count = count_finish(f'{log_directory}/log1.txt')
+        final_finish_count = total_finish_count()
         print("当前的'finish'数量:", final_finish_count)
 
         if final_finish_count > initial_finish_count:
