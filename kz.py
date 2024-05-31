@@ -12,7 +12,7 @@ discord_webhook_url = "https://discord.com/api/webhooks/"  # Discord Webhook URL
 discord_message = "kuzco运行异常，正在重启程序..."  # 发送的消息内容
 
 # 此参数不推荐修改！
-send_discord_notifications = input("输入1以禁用Discord消息推送，输入其他任意值以启用: ") != '1'
+send_discord_notifications = input("输入1以启用Discord消息推送，输入其他任意值以禁用: ") == '1'
 
 log_directory = '/var/log/kuzco/'
 
