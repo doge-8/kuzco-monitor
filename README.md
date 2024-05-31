@@ -17,10 +17,10 @@
 ## 使用说明
 
 1. 在脚本开头可以轻松更改需要的参数。
-2. 如何启用 DC 推送功能：
+2. 如何启用 discord 推送功能：
    - 填入你的webhook地址（创建 Webhook 机器人方法简单，详细步骤可参考谷歌搜索结果。）
    - 启动脚本时直接按回车键
-3. 如果需要禁用 DC 推送功能，在启动时输入 `1` 启用。
+3. 如果需要启用 discord 推送功能，在启动时输入 `1` 启用。
 4. 可使用tail -f /var/log/kuzco/log1.txt查看1号worker运行状态、其他的worker状态更改成2、3、4即可。
 
 ## 环境要求
@@ -60,10 +60,10 @@ This script aims to start and monitor Kuzco in multiple instances at specific ti
 ## Instructions
 
 1. You can easily change the required parameters at the beginning of the script.
-2. How to enable the DC push notification feature:
+2. How to enable the discord push notification feature:
    - Enter your webhook address (creating a Webhook bot is simple, detailed steps can be found via Google search).
    - Press the Enter key when starting the script.
-3. To disable the DC push notification feature, enter `1` when starting.
+3. If you need to enable the Discord push function, enter '1' at startup to enable it.
 
 ## Requirements
 
