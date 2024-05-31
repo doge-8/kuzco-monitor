@@ -44,6 +44,8 @@ python3 kz.py
 
 ## Don't forget to like and follow! X account: [https://x.com/188888_x](https://x.com/188888_x)
 
+#To avoid unnecessary environmental errors, please use the root account to install kuzco and run the script!!!
+
 ## Introduction
 
 This script aims to start and monitor Kuzco in multiple instances at specific times to determine if its task completion status is abnormal. If no tasks are completed, the script will automatically restart Kuzco.
