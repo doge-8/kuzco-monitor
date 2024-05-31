@@ -21,7 +21,7 @@
    - 填入你的webhook地址（创建 Webhook 机器人方法简单，详细步骤可参考谷歌搜索结果。）
    - 启动脚本时直接按回车键
 3. 如果需要禁用 DC 推送功能，在启动时输入 `1` 启用。
-4. 可使用tail -f /var/log/kuzco/log1.txt查看1号运行状态、其他的worker状态更改成2、3、4即可。
+4. 可使用tail -f /var/log/kuzco/log1.txt查看1号worker运行状态、其他的worker状态更改成2、3、4即可。
 
 ## 环境要求
 
