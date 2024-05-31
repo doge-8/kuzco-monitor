@@ -54,12 +54,21 @@ def exit_handler(signal, frame):
     clear_all_logs()
     sys.exit(0)
 
+def install_jq_if_not_installed():
+    jq_installed = subprocess.run("which jq", shell=True, stdout=subprocess.PIPE).stdout.decode().strip()
+    if not jq_installed:
+        print("jq 未安装，正在安装...")
+        install_command = "sudo apt-get install jq -y"  # 适用于 Ubuntu/Debian 系统
+        subprocess.run(install_command, shell=True)
+
 def main():
     signal.signal(signal.SIGINT, exit_handler)
     signal.signal(signal.SIGTERM, exit_handler)
 
     if not os.path.exists(log_directory):
         os.makedirs(log_directory)
+
+    install_jq_if_not_installed()  # 添加安装 jq 的检查
 
     start_kuzco(workers)
 
