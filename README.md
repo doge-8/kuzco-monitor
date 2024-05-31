@@ -12,7 +12,7 @@
 
 - 一键多开启动并实时监测 Kuzco 运行状态，确保正常运行。
 - 支持自动重启功能，保障系统稳定性。
-- 可选择性地启用 DC 推送功能，若不需要可轻松禁用。
+- 可选择性地启用 discord 推送功能，若不需要可轻松禁用。
 
 ## 使用说明
 
@@ -55,7 +55,7 @@ This script aims to start and monitor Kuzco in multiple instances at specific ti
 
 - One-click multi-instance startup and real-time monitoring of Kuzco's operational status to ensure normal operation.
 - Supports automatic restart functionality to ensure system stability.
-- Optionally enable DC push notifications, which can be easily disabled if not needed.
+- Optionally enable discord push notifications, which can be easily disabled if not needed.
 
 ## Instructions
 
