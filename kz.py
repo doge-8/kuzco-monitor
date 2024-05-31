@@ -46,6 +46,7 @@ def start_kuzco(workers):
             print(f"启动{i}号kuzco中")
             update_worker_status()
             os.system(f"kuzco worker start > {log_directory}/log{i}.txt 2>&1 &")
+            update_worker_status()
             time.sleep(6)
 
 def send_discord_message():
