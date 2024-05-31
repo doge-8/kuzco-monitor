@@ -69,6 +69,7 @@ def install_jq_if_not_installed():
         print("jq 未安装，正在安装...")
         install_command = "sudo apt-get install -qq jq -y"  # 适用于 Ubuntu/Debian 系统
         subprocess.run(install_command, shell=True)
+        print("jq 安装完毕，启动kuzco中...")
 
 def main():
     signal.signal(signal.SIGINT, exit_handler)
