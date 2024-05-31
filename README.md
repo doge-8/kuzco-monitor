@@ -25,10 +25,9 @@
 
 ## 环境要求
 
-- 需要使用jq，安装方法apt install jq -y
+- 适用于ubuntu22.04或者windows WSL的22.04版本
 - 确保系统已安装 Python 3。（ubuntu22.04有默认安装）
 - 若系统未安装 Python 3，可通过谷歌搜索安装方法。
-- 安装 Python 后，脚本可在所有平台通用。
 
 ## 使用方法
 
@@ -68,9 +67,9 @@ This script aims to start and monitor Kuzco in multiple instances at specific ti
 
 ## Requirements
 
+- Applicable to Ubuntu 22.04 or Windows WSL version 22.04
 - Ensure that Python 3 is installed on your system (Ubuntu 22.04 has it installed by default).
 - If Python 3 is not installed, you can find installation methods via Google search.
-- Once Python is installed, the script can be used on all platforms.
 
 ## Usage
 
