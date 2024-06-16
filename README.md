@@ -20,8 +20,11 @@
 2. 如何启用 discord 推送功能：
    - 填入你的webhook地址（创建 Webhook 机器人方法简单，详细步骤可参考谷歌搜索结果。）
    - 启动脚本时直接按回车键
-3. 如果需要启用 discord 推送功能，在启动时输入 `1` 启用。
-4. 可使用tail -f /var/log/kuzco/log1.txt查看1号worker运行状态、其他的worker状态更改成2、3、4即可。
+3. 如果需要启用 discord 推送功能，在启动时看提示输入 `1` 启用。
+4. 输入自己worker的启动号（在自己网页worker里点击Launch Worker后二级菜单中Register Worker内获取例如--worker Es0VkSLpgmpHAGkMOWP0A --code 402d6684-215e-4106-a834-164ef0507377）
+   ![image](https://github.com/doge-8/kuzco-monitor/assets/84656053/324f3ed6-fcc4-4254-a70d-9f83be0714f6)
+
+6. 可使用tail -f /var/log/kuzco/log1.txt查看1号worker运行状态、其他的worker状态更改成2、3、4即可。
 
 ## 环境要求
 
