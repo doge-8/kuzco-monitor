@@ -12,17 +12,11 @@
 
 - 一键多开启动并实时监测 Kuzco 运行状态，确保正常运行。
 - 支持自动重启功能，保障系统稳定性。
-- 可选择性地启用 discord 推送功能，若不需要可轻松禁用。
 
 ## 使用说明
 
-
 1. 在脚本开头可以轻松更改需要的参数。
-2. 如何启用 discord 推送功能：
-   - 填入你的webhook地址（创建 Webhook 机器人方法简单，详细步骤可参考谷歌搜索结果。）
-   - 启动脚本时直接按回车键
-3. 如果需要启用 discord 推送功能，在启动时看提示输入 `1` 启用。
-4. 输入自己worker的启动号（在自己网页worker里点击Launch Worker后二级菜单中Register Worker内获取）
+2. 输入自己worker的启动号（在自己网页worker里点击Launch Worker后二级菜单中Register Worker内获取）
    <img width="486" alt="1718516732980" src="https://github.com/doge-8/kuzco-monitor/assets/84656053/23dd6593-41ab-400b-bab9-9c487a688ec2">
 
 
@@ -37,48 +31,6 @@
 ## 使用方法
 
 在终端中运行以下命令启动脚本：
-
-```
-python3 kz.py
-```
-
-
-
-#EN
-
-# Kuzco Monitoring Script
-
-## Don't forget to like and follow! X account: [https://x.com/188888_x](https://x.com/188888_x)
-
-#To avoid unnecessary environmental errors, please use the root account to install kuzco and run the script!!!
-
-## Introduction
-
-This script aims to start and monitor Kuzco in multiple instances at specific times to determine if its task completion status is abnormal. If no tasks are completed, the script will automatically restart Kuzco.
-
-## Features
-
-- One-click multi-instance startup and real-time monitoring of Kuzco's operational status to ensure normal operation.
-- Supports automatic restart functionality to ensure system stability.
-- Optionally enable discord push notifications, which can be easily disabled if not needed.
-
-## Instructions
-
-1. You can easily change the required parameters at the beginning of the script.
-2. How to enable the discord push notification feature:
-   - Enter your webhook address (creating a Webhook bot is simple, detailed steps can be found via Google search).
-   - Press the Enter key when starting the script.
-3. If you need to enable the Discord push function, enter '1' at startup to enable it.
-
-## Requirements
-
-- Applicable to Ubuntu 22.04 or Windows WSL version 22.04
-- Ensure that Python 3 is installed on your system (Ubuntu 22.04 has it installed by default).
-- If Python 3 is not installed, you can find installation methods via Google search.
-
-## Usage
-
-Run the following command in the terminal to start the script:
 
 ```
 python3 kz.py
