@@ -3,10 +3,10 @@ import signal
 import time
 import sys
 import subprocess
-import argparse
+import re
 
 # 可调用户设置参数
-workers = 3  # 工作的数量、4060目前推荐3、合适值自行测试
+workers = 3  # 开越多网页控制板Generations计算延迟越高，计算延迟控制在3w左右合适，超过3万会假死！！
 check_interval = 300  # 检测时间间隔，单位：秒
 restart_wait_time = 30  # 重启等待时间，单位：秒
 discord_webhook_url = "https://discord.com/api/webhooks/"  # Discord Webhook URL
@@ -17,11 +17,15 @@ send_discord_notifications = input("输入1以启用Discord消息推送功能，
 
 log_directory = '/var/log/kuzco/'
 
-def parse_args():
-    parser = argparse.ArgumentParser(description='启动kuzco脚本')
-    parser.add_argument('--worker', required=True, help='指定worker参数')
-    parser.add_argument('--code', required=True, help='指定code参数')
-    return parser.parse_args()
+def get_start_suffix():
+    while True:
+        start_suffix = input("请输入启动后缀（例如：--worker GufaTz95ZybO2Qyv2JqxX --code 3dea812f-cee7-4d15-bb1c-6597e956b920）: ")
+        if re.match(r'^--worker \S+ --code \S+$', start_suffix):
+            return start_suffix
+        else:
+            print("后缀格式错误，请重新输入")
+
+start_suffix = get_start_suffix()
 
 def count_finish(file_path):
     with open(file_path, 'r') as file:
@@ -47,12 +51,12 @@ def clear_all_logs():
 def update_worker_status():
     os.system("jq '.status = \"Offline\"' /root/.kuzco/worker.json > /root/.kuzco/worker_temp.json && mv /root/.kuzco/worker_temp.json /root/.kuzco/worker.json")
 
-def start_kuzco(workers, worker_param, code_param):
+def start_kuzco(workers, start_suffix):
     if workers > 0:
         for i in range(1, workers + 1):
             print(f"启动{i}号kuzco中")
             update_worker_status()
-            os.system(f"kuzco worker start --worker {worker_param} --code {code_param} > {log_directory}/log{i}.txt 2>&1 &")
+            os.system(f"kuzco worker start {start_suffix} > {log_directory}/log{i}.txt 2>&1 &")
             update_worker_status()
             time.sleep(6)
 
@@ -87,9 +91,7 @@ def main():
 
     install_jq_if_not_installed()  # 添加安装 jq 的检查
 
-    args = parse_args()
-
-    start_kuzco(workers, args.worker, args.code)
+    start_kuzco(workers, start_suffix)
 
     while True:
         initial_finish_count = total_finish_count()
@@ -107,7 +109,7 @@ def main():
             os.system("pkill -9 'kuzco'")
             time.sleep(restart_wait_time)
             send_discord_message()
-            start_kuzco(workers, args.worker, args.code)
+            start_kuzco(workers, start_suffix)
 
         clear_all_logs()
 
