@@ -22,7 +22,8 @@
    - 启动脚本时直接按回车键
 3. 如果需要启用 discord 推送功能，在启动时看提示输入 `1` 启用。
 4. 输入自己worker的启动号（在自己网页worker里点击Launch Worker后二级菜单中Register Worker内获取例如--worker Es0VkSLpgmpHAGkMOWP0A --code 402d6684-215e-4106-a834-164ef0507377）
-   ![image](https://github.com/doge-8/kuzco-monitor/assets/84656053/324f3ed6-fcc4-4254-a70d-9f83be0714f6)
+   <img width="200" alt="1718516732980" src="https://github.com/doge-8/kuzco-monitor/assets/84656053/23dd6593-41ab-400b-bab9-9c487a688ec2">
+
 
 6. 可使用tail -f /var/log/kuzco/log1.txt查看1号worker运行状态、其他的worker状态更改成2、3、4即可。
 
