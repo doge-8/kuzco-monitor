@@ -30,7 +30,7 @@
 ## 环境要求
 
 - 适用于ubuntu22.04或者windows WSL的22.04版本
-- 确保系统已安装 Python 3。（ubuntu22.04有默认安装）
+- 确保系统已安装 最新版本kuzco、Python 3。（ubuntu22.04有默认安装）
 - 若系统未安装 Python 3，可通过谷歌搜索安装方法。
 
 ## 使用方法
