@@ -19,7 +19,7 @@ log_directory = '/var/log/kuzco/'
 
 def get_start_suffix():
     while True:
-        start_suffix = input("请输入启动后缀（例如：--worker GufaTz95ZybO2Qyv2JqxX --code 3dea812f-cee7-4d15-bb1c-6597e956b920）: ")
+        start_suffix = input("请输入启动后缀（例如：--worker Es0VkSLpgmpHAGkMOWP0A --code 402d6684-215e-4106-a834-164ef0507377）: ")
         if re.match(r'^--worker \S+ --code \S+$', start_suffix):
             return start_suffix
         else:
