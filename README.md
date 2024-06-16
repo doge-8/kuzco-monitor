@@ -16,13 +16,13 @@
 
 ## 使用说明
 
-首先自己想办法把脚本保存下载，例如git clone、使用vi自行手动复制，这种最简单的操作请自行谷歌！！！
+
 1. 在脚本开头可以轻松更改需要的参数。
-3. 如何启用 discord 推送功能：
+2. 如何启用 discord 推送功能：
    - 填入你的webhook地址（创建 Webhook 机器人方法简单，详细步骤可参考谷歌搜索结果。）
    - 启动脚本时直接按回车键
-4. 如果需要启用 discord 推送功能，在启动时看提示输入 `1` 启用。
-5. 输入自己worker的启动号（在自己网页worker里点击Launch Worker后二级菜单中Register Worker内获取）
+3. 如果需要启用 discord 推送功能，在启动时看提示输入 `1` 启用。
+4. 输入自己worker的启动号（在自己网页worker里点击Launch Worker后二级菜单中Register Worker内获取）
    <img width="486" alt="1718516732980" src="https://github.com/doge-8/kuzco-monitor/assets/84656053/23dd6593-41ab-400b-bab9-9c487a688ec2">
 
 
