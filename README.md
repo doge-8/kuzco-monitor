@@ -20,7 +20,7 @@
    <img width="486" alt="1718516732980" src="https://github.com/doge-8/kuzco-monitor/assets/84656053/23dd6593-41ab-400b-bab9-9c487a688ec2">
 
 
-6. 可使用tail -f /var/log/kuzco/log1.txt查看1号worker运行状态、其他的worker状态更改成2、3、4即可。
+6. 可使用tail -f log/log1.txt查看1号worker运行状态、其他的worker状态更改成2、3、4即可。(在脚本的同目录使用)
 
 ## 环境要求
 
