@@ -113,7 +113,7 @@ def main():
         all_workers_running = True
         for i in range(1, workers + 1):
             if final_finish_counts[i] > initial_finish_counts[i]:
-                print(f"{i}号kuzco正常运行")
+                continue  # Worker 正常运行，继续检查下一个 worker
             else:
                 print(f"检测到{i}号kuzco异常，尝试重启中...")
                 pid = get_pid(i)
