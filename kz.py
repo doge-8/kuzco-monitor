@@ -103,8 +103,6 @@ def main():
 
         time.sleep(check_interval)
 
-        clear_all_logs()
-
         current_finish_counts = total_finish_counts()
         print("新的'finish'数量:", current_finish_counts)
 
@@ -118,6 +116,8 @@ def main():
                 start_kuzco(i, start_suffix)
 
         last_finish_counts = current_finish_counts
+
+        clear_all_logs()
 
 if __name__ == "__main__":
     main()
