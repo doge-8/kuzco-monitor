@@ -3,7 +3,6 @@ import signal
 import time
 import sys
 import re
-import subprocess
 
 # 可调用户设置参数
 workers = 3  # 开越多网页控制板Generations计算延迟越高，计算延迟控制在3w左右合适，超过3万会假死！！
@@ -13,7 +12,6 @@ restart_wait_time = 30  # 重启等待时间，单位：秒
 # 获取当前脚本的目录
 current_directory = os.path.dirname(os.path.abspath(__file__))
 log_directory = os.path.join(current_directory, 'log')
-pid_directory = os.path.join(current_directory, 'pids')
 
 def get_start_suffix():
     while True:
@@ -31,55 +29,49 @@ def count_finish(file_path):
         finish_count = content.count('finish')
     return finish_count
 
-def total_finish_counts():
-    finish_counts = {}
+def get_individual_finish_counts():
+    counts = {}
     for i in range(1, workers + 1):
         log_file_path = f'{log_directory}/log{i}.txt'
         if os.path.exists(log_file_path):
-            finish_counts[i] = count_finish(log_file_path)
+            counts[i] = count_finish(log_file_path)
         else:
-            finish_counts[i] = 0
-    return finish_counts
-
-def clear_log(worker_id):
-    log_file_path = f'{log_directory}/log{worker_id}.txt'
-    if os.path.exists(log_file_path):
-        with open(log_file_path, 'w') as file:
-            file.truncate(0)
+            counts[i] = 0
+    return counts
 
 def clear_all_logs():
     for i in range(1, workers + 1):
-        clear_log(i)
+        log_file_path = f'{log_directory}/log{i}.txt'
+        if os.path.exists(log_file_path):
+            with open(log_file_path, 'w') as file:
+                file.truncate(0)
 
-def start_kuzco(worker_id, start_suffix):
-    print(f"启动{worker_id}号kuzco中")
-    log_file_path = f'{log_directory}/log{worker_id}.txt'
-    pid_file_path = f'{pid_directory}/pid{worker_id}.txt'
-    
-    # 启动进程并记录PID
-    process = subprocess.Popen(f"kuzco worker start {start_suffix} > {log_file_path} 2>&1 & echo $!", shell=True, stdout=subprocess.PIPE)
-    pid = process.stdout.read().decode().strip()
-    
-    with open(pid_file_path, 'w') as pid_file:
-        pid_file.write(pid)
-    
-    time.sleep(6)
+def start_kuzco(workers, start_suffix):
+    pids = {}
+    if workers > 0:
+        for i in range(1, workers + 1):
+            print(f"启动{i}号kuzco中")
+            pid = os.fork()
+            if pid == 0:  # 子进程
+                os.system(f"kuzco worker start {start_suffix} > {log_directory}/log{i}.txt 2>&1")
+                sys.exit(0)
+            else:  # 父进程
+                pids[i] = pid
+                time.sleep(6)
+    return pids
 
-def stop_kuzco(worker_id):
-    pid_file_path = f'{pid_directory}/pid{worker_id}.txt'
-    if os.path.exists(pid_file_path):
-        with open(pid_file_path, 'r') as pid_file:
-            pid = pid_file.read().strip()
-        os.system(f"kill -9 {pid}")
-        os.remove(pid_file_path)
-
-def stop_all_kuzco():
-    for i in range(1, workers + 1):
-        stop_kuzco(i)
+def restart_worker(worker_id, start_suffix):
+    print(f"重启{worker_id}号kuzco中")
+    pid = os.fork()
+    if pid == 0:  # 子进程
+        os.system(f"kuzco worker start {start_suffix} > {log_directory}/log{worker_id}.txt 2>&1")
+        sys.exit(0)
+    else:  # 父进程
+        return pid
 
 def exit_handler(signal, frame):
     print("\n检测脚本已关闭，清除所有kuzco...")
-    stop_all_kuzco()
+    os.system("pkill -9 'kuzco'")
     clear_all_logs()
     sys.exit(0)
 
@@ -89,33 +81,26 @@ def main():
 
     if not os.path.exists(log_directory):
         os.makedirs(log_directory)
-    
-    if not os.path.exists(pid_directory):
-        os.makedirs(pid_directory)
 
-    for i in range(1, workers + 1):
-        start_kuzco(i, start_suffix)
-
-    last_finish_counts = total_finish_counts()
+    pids = start_kuzco(workers, start_suffix)
 
     while True:
-        print("当前的'finish'数量:", last_finish_counts)
+        initial_finish_counts = get_individual_finish_counts()
+        print("初始的'finish'数量:", initial_finish_counts)
 
         time.sleep(check_interval)
 
-        current_finish_counts = total_finish_counts()
-        print("新的'finish'数量:", current_finish_counts)
+        current_finish_counts = get_individual_finish_counts()
+        print("当前的'finish'数量:", current_finish_counts)
 
-        for i in range(1, workers + 1):
-            if current_finish_counts[i] > last_finish_counts[i]:
-                print(f"{i}号kuzco正常运行")
+        for worker_id in initial_finish_counts:
+            if current_finish_counts[worker_id] > initial_finish_counts[worker_id]:
+                print(f"{worker_id}号kuzco正常运行")
             else:
-                print(f"检测到{i}号kuzco异常，尝试重启中...")
-                stop_kuzco(i)
+                print(f"检测到{worker_id}号kuzco异常，尝试重启中...")
+                os.kill(pids[worker_id], signal.SIGKILL)
                 time.sleep(restart_wait_time)
-                start_kuzco(i, start_suffix)
-
-        last_finish_counts = current_finish_counts
+                pids[worker_id] = restart_worker(worker_id, start_suffix)
 
         clear_all_logs()
 
