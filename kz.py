@@ -6,13 +6,12 @@ import re
 
 # 可调用户设置参数
 workers = 3  # 开越多网页控制板Generations计算延迟越高，计算延迟控制在3w左右合适，超过3万会假死！！
-check_interval = 300  # 检测时间间隔，单位：秒
+check_interval = 3600  # 检测时间间隔，单位：秒，修改为1小时
 restart_wait_time = 30  # 重启等待时间，单位：秒
 
 # 获取当前脚本的目录
 current_directory = os.path.dirname(os.path.abspath(__file__))
 log_directory = os.path.join(current_directory, 'log')
-pid_file = os.path.join(current_directory, 'pid.txt')
 
 def get_start_suffix():
     while True:
@@ -30,34 +29,10 @@ def count_finish(file_path):
         finish_count = content.count('finish')
     return finish_count
 
-def record_pid(worker_id, pid):
-    with open(pid_file, 'a') as file:
-        file.write(f'{worker_id} {pid}\n')
-
-def get_pid(worker_id):
-    if os.path.exists(pid_file):
-        with open(pid_file, 'r') as file:
-            for line in file:
-                w_id, pid = line.strip().split()
-                if int(w_id) == worker_id:
-                    return pid
-    return None
-
-def remove_pid(worker_id):
-    if os.path.exists(pid_file):
-        lines = []
-        with open(pid_file, 'r') as file:
-            lines = file.readlines()
-        with open(pid_file, 'w') as file:
-            for line in lines:
-                if int(line.split()[0]) != worker_id:
-                    file.write(line)
-
 def start_worker(worker_id, start_suffix):
     log_file_path = os.path.join(log_directory, f'log{worker_id}.txt')
-    command = f"kuzco worker start {start_suffix} > {log_file_path} 2>&1 & echo $!"
-    pid = os.popen(command).read().strip()
-    record_pid(worker_id, pid)
+    command = f"kuzco worker start {start_suffix} > {log_file_path} 2>&1 &"
+    os.system(command)
     print(f"启动{worker_id}号kuzco中")
     time.sleep(6)
 
@@ -68,8 +43,6 @@ def start_kuzco(workers, start_suffix):
 def exit_handler(signal, frame):
     print("\n检测脚本已关闭，清除所有kuzco...")
     os.system("pkill -9 'kuzco'")
-    if os.path.exists(pid_file):
-        os.remove(pid_file)
     clear_all_logs()
     sys.exit(0)
 
@@ -116,18 +89,16 @@ def main():
                 continue  # Worker 正常运行，继续检查下一个 worker
             else:
                 print(f"检测到{i}号kuzco异常，尝试重启中...")
-                pid = get_pid(i)
-                if pid:
-                    os.system(f"kill -9 {pid}")
-                    remove_pid(i)
                 time.sleep(restart_wait_time)
-                start_worker(i, start_suffix)
+                os.system("pkill -9 'kuzco'")
+                start_kuzco(workers, start_suffix)
                 all_workers_running = False
+                break
 
         if all_workers_running:
             print("所有kuzco正常运行")
         else:
-            print("部分kuzco已重启")
+            print("部分或全部kuzco已重启")
 
         clear_all_logs()
 
